@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDU701/TED701: Research Methods in Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8cc82;
+    --gold-pale: #f5e9c8;
+    --ink: #0e1620;
+    --ink-mid: #1a2740;
+    --blue-deep: #0f2544;
+    --blue-mid: #1e4080;
+    --blue-bright: #2e6da4;
+    --cream: #faf8f3;
+    --text: #1c2b3a;
+    --text-muted: #5a6e82;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ===== HERO HEADER ===== */
+  .site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 100vh;
+    background: var(--ink);
+    color: #fff;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 32px;
+    transition: transform 0.65s cubic-bezier(0.76,0,0.24,1), opacity 0.5s ease;
+    overflow: hidden;
+  }
+
+  /* Deep layered background */
+  .hero-bg {
+    position: absolute; inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .hero-bg-gradient {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 30%, rgba(46,109,164,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(201,168,76,0.12) 0%, transparent 55%),
+      linear-gradient(165deg, #0e1620 0%, #12213a 50%, #0f1e35 100%);
+  }
+  /* Gold diagonal line accents */
+  .hero-line {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent);
+    height: 1px;
+    width: 60%;
+    left: 20%;
+  }
+  .hero-line-1 { top: 28%; transform: rotate(-8deg); opacity: 0.6; }
+  .hero-line-2 { top: 72%; transform: rotate(-8deg); opacity: 0.35; width: 40%; left: 30%; }
+
+  /* Geometric corner ornaments */
+  .hero-corner {
+    position: absolute;
+    width: 180px; height: 180px;
+    border: 1px solid rgba(201,168,76,0.25);
+  }
+  .hero-corner-tl { top: 32px; left: 32px; border-right: none; border-bottom: none; }
+  .hero-corner-br { bottom: 32px; right: 32px; border-left: none; border-top: none; }
+  .hero-corner-tr { top: 32px; right: 32px; border-left: none; border-bottom: none; width: 90px; height: 90px; border-color: rgba(201,168,76,0.15); }
+  .hero-corner-bl { bottom: 32px; left: 32px; border-right: none; border-top: none; width: 90px; height: 90px; border-color: rgba(201,168,76,0.15); }
+
+  /* Floating dot grid */
+  .hero-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(201,168,76,0.12) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  /* Glowing orb behind logo */
+  .hero-orb {
+    position: absolute;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(46,109,164,0.28) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -52%);
+  }
+
+  .site-header.scrolled-away {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* === HERO CONTENT === */
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center;
+    animation: heroFadeUp 1.1s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 22px;
+    animation: heroFadeUp 1s 0.1s both;
+  }
+  .hero-eyebrow-line {
+    display: inline-block; width: 36px; height: 1px;
+    background: var(--gold); opacity: 0.7;
+  }
+
+  .hero-logo {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(46,109,164,0.25));
+    border: 1.5px solid rgba(201,168,76,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    margin-bottom: 28px;
+    box-shadow: 0 0 0 12px rgba(201,168,76,0.06), 0 0 60px rgba(46,109,164,0.3);
+    animation: heroFadeUp 1s 0.15s both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5.5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 6px;
+    animation: heroFadeUp 1s 0.2s both;
+  }
+  .hero-title-accent {
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle-bar {
+    width: 56px; height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 18px auto;
+    animation: heroFadeUp 1s 0.28s both;
+  }
+
+  .hero-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(0.88rem, 2vw, 1.05rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.02em;
+    margin-bottom: 32px;
+    animation: heroFadeUp 1s 0.32s both;
+  }
+
+  .hero-meta-row {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center;
+    margin-bottom: 44px;
+    animation: heroFadeUp 1s 0.4s both;
+  }
+  .hero-meta-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.01em;
+    backdrop-filter: blur(6px);
+  }
+  .hero-meta-pill strong { color: var(--gold-light); font-weight: 600; }
+
+  /* scroll hint */
+  .scroll-hint {
+    position: absolute;
+    bottom: 36px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: heroFadeUp 1s 0.6s both;
+  }
+  .scroll-hint-text {
+    font-size: 0.67rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+  .scroll-hint-track {
+    width: 1.5px; height: 48px;
+    background: rgba(201,168,76,0.2);
+    border-radius: 2px;
+    position: relative; overflow: hidden;
+  }
+  .scroll-hint-track::after {
+    content: '';
+    position: absolute;
+    top: -100%; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    animation: scrollDrop 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollDrop {
+    0% { top: -50%; }
+    100% { top: 100%; }
+  }
+
+  /* ===== STICKY NAV BAR ===== */
+  .topnav {
+    background: rgba(10, 18, 32, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(201,168,76,0.18);
+    display: flex; flex-wrap: wrap; gap: 0px;
+    padding: 0 20px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    transform: translateY(-100%);
+    transition: transform 0.45s cubic-bezier(0.76,0,0.24,1);
+  }
+  .topnav.visible {
+    transform: translateY(0);
+  }
+  .topnav a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    padding: 13px 13px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .topnav a:hover, .topnav a.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; margin-top: 100vh; }
+
+  /* ===== TOC ===== */
+  .toc-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 36px;
+    box-shadow: 0 4px 32px rgba(30,64,128,0.09);
+    border-top: 3px solid var(--gold);
+    position: relative; overflow: hidden;
+  }
+  .toc-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle at top right, rgba(201,168,76,0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .toc-card h2 {
+    color: var(--ink-mid);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+  }
+  .toc-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #faf9f6;
+    border-radius: 10px;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: var(--ink-mid);
+    font-size: 0.87rem;
+    font-weight: 500;
+    border: 1px solid rgba(201,168,76,0.18);
+    transition: all 0.22s;
+  }
+  .toc-item:hover {
+    background: var(--ink-mid);
+    color: #fff;
+    border-color: var(--ink-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(14,22,32,0.18);
+  }
+  .toc-num { font-weight: 700; color: var(--gold); min-width: 22px; }
+  .toc-item:hover .toc-num { color: var(--gold-light); }
+
+  /* ===== SECTION CARDS ===== */
+  .section-card {
+    background: #fff;
+    border-radius: 20px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 28px rgba(30,64,128,0.08);
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .section-header {
+    background: linear-gradient(105deg, var(--blue-deep) 0%, var(--blue-mid) 100%);
+    color: #fff;
+    padding: 22px 32px;
+    display: flex; align-items: center; gap: 18px;
+    position: relative; overflow: hidden;
+    border-bottom: 2px solid rgba(201,168,76,0.3);
+  }
+  .section-header::after {
+    content: '';
+    position: absolute; right: -20px; top: -20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.12), transparent 70%);
+  }
+  .section-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .section-header p { font-size: 0.82rem; opacity: 0.72; margin-top: 3px; }
+  .section-body { padding: 28px 32px; }
+
+  /* ===== CONTENT BLOCKS ===== */
+  .intro-box {
+    background: #e8f4fd;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2e6da4;
+    font-size: 0.95rem;
+  }
+  .intro-box strong { color: #1b3a6b; }
+
+  h3.sub-heading {
+    color: var(--ink-mid);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.02rem;
+    font-weight: 700;
+    margin: 24px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  p { margin-bottom: 12px; font-size: 0.93rem; }
+
+  /* ===== CONCEPT CARDS ===== */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .concept-card {
+    background: #f7fbff;
+    border: 1px solid #cde4f8;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .concept-card h4 { color: #1b3a6b; font-size: 0.92rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .concept-card p { font-size: 0.86rem; color: #444; margin: 0; }
+  .concept-card .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .badge-blue { background: #2e6da4; color: #fff; }
+  .badge-green { background: #2d8a5e; color: #fff; }
+  .badge-orange { background: #e07b23; color: #fff; }
+  .badge-purple { background: #6b3a9e; color: #fff; }
+  .badge-red { background: #b53030; color: #fff; }
+
+  /* ===== IMAGE SECTION ===== */
+  .image-row {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    margin: 18px 0;
+    justify-content: center;
+  }
+  .img-block {
+    flex: 1 1 200px;
+    max-width: 280px;
+    text-align: center;
+  }
+  .img-placeholder {
+    width: 100%;
+    height: 160px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin-bottom: 8px;
+    border: 2px dashed #bcd4ee;
+  }
+  .img-caption {
+    font-size: 0.79rem;
+    color: #555;
+    font-style: italic;
+    background: #f0f6ff;
+    border-radius: 6px;
+    padding: 5px 8px;
+  }
+
+  /* ===== MNEMONIC ===== */
+  .mnemonic-box {
+    background: linear-gradient(135deg, #fff8e6, #fff3cc);
+    border: 2px solid #f0c040;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .mnemonic-box h4 { color: #7a5500; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .mnemonic-word {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin: 12px 0;
+  }
+  .mnemonic-letter {
+    background: #f0c040;
+    color: #5a3e00;
+    font-weight: 900;
+    font-size: 1.1rem;
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mnemonic-expand { font-size: 0.88rem; color: #6a4700; margin-top: 8px; }
+  .mnemonic-expand span { font-weight: 700; color: #4a3000; }
+
+  /* ===== PROCESS STEPS ===== */
+  .steps-list { list-style: none; margin: 14px 0; }
+  .steps-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eef3f8;
+    font-size: 0.91rem;
+  }
+  .steps-list li:last-child { border-bottom: none; }
+  .step-num {
+    background: #2e6da4;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    min-width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content strong { color: #1b3a6b; display: block; margin-bottom: 3px; }
+
+  /* ===== COMPARISON TABLE ===== */
+  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .compare-table th { background: #1b3a6b; color: #fff; padding: 10px 14px; text-align: left; }
+  .compare-table td { padding: 9px 14px; border-bottom: 1px solid #e0eaf5; }
+  .compare-table tr:nth-child(even) td { background: #f4f8fd; }
+  .compare-table tr:hover td { background: #e8f0fa; }
+
+  /* ===== INFO ALERT ===== */
+  .info-alert {
+    background: #e6f3ff;
+    border: 1px solid #aad4f5;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .info-alert .alert-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+
+  .warning-alert {
+    background: #fff8e6;
+    border: 1px solid #f0c040;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+
+  /* ===== QUIZ ===== */
+  .quiz-section { margin-top: 8px; }
+  .quiz-progress {
+    background: #e8f0fa;
+    border-radius: 8px;
+    padding: 10px 18px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #1b3a6b;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .progress-bar-wrap { flex: 1; min-width: 150px; background: #cde4f8; border-radius: 10px; height: 8px; }
+  .progress-bar { height: 8px; background: #2e6da4; border-radius: 10px; transition: width 0.4s; }
+  .quiz-score { font-weight: 700; color: #2e6da4; }
+
+  .quiz-q {
+    background: #fff;
+    border: 1px solid #d0e4f7;
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    transition: box-shadow 0.2s;
+  }
+  .quiz-q:hover { box-shadow: 0 2px 10px rgba(46,109,164,0.12); }
+  .quiz-q-num { font-size: 0.75rem; color: #2e6da4; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .quiz-q-text { font-size: 0.95rem; font-weight: 600; color: #1a2332; margin-bottom: 14px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option {
+    background: #f4f8fd;
+    border: 1.5px solid #cde4f8;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    transition: all 0.18s;
+    display: flex; align-items: center; gap: 10px;
+    user-select: none;
+  }
+  .quiz-option:hover:not(.disabled) { background: #dbeeff; border-color: #2e6da4; }
+  .quiz-option.correct { background: #d4f4e0; border-color: #2d8a5e; color: #1a4d32; }
+  .quiz-option.wrong { background: #fde8e8; border-color: #b53030; color: #5a1010; }
+  .quiz-option.disabled { cursor: default; }
+  .option-letter {
+    background: #2e6da4;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.78rem;
+    min-width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .quiz-option.correct .option-letter { background: #2d8a5e; }
+  .quiz-option.wrong .option-letter { background: #b53030; }
+  .quiz-explanation {
+    background: #eaf7ee;
+    border: 1px solid #9dd6b4;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 0.84rem;
+    color: #1a4d32;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+  .quiz-explanation strong { color: #1a4d2a; }
+
+  .quiz-controls {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .btn-primary { background: #2e6da4; color: #fff; }
+  .btn-primary:hover { background: #1b3a6b; }
+  .btn-success { background: #2d8a5e; color: #fff; }
+  .btn-success:hover { background: #1d6040; }
+  .btn-outline { background: transparent; border: 2px solid #2e6da4; color: #2e6da4; }
+  .btn-outline:hover { background: #2e6da4; color: #fff; }
+  .btn-sm { padding: 7px 16px; font-size: 0.82rem; }
+  .btn-danger { background: #b53030; color: #fff; }
+  .btn-danger:hover { background: #7a1f1f; }
+
+  /* ===== RESULT BANNER ===== */
+  .result-banner {
+    background: linear-gradient(135deg, #1b3a6b, #2e6da4);
+    color: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+  }
+  .result-banner.show { display: block; }
+  .result-score { font-size: 2.5rem; font-weight: 900; margin: 10px 0; }
+  .result-msg { font-size: 0.95rem; opacity: 0.9; }
+  .result-emoji { font-size: 2rem; }
+
+  /* ===== FLOATING BACK TO TOP ===== */
+  .back-top {
+    position: fixed;
+    bottom: 28px; right: 24px;
+    background: var(--ink);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    width: 48px; height: 48px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s, transform 0.2s;
+    z-index: 999;
+  }
+  .back-top.visible { opacity: 1; pointer-events: auto; }
+  .back-top:hover { background: var(--blue-mid); transform: translateY(-3px); }
+
+  /* ===== NAV BETWEEN SECTIONS ===== */
+  .section-nav {
+    display: flex; justify-content: space-between; flex-wrap: wrap;
+    gap: 10px; margin-top: 20px; padding-top: 16px;
+    border-top: 1px solid #e0eaf5;
+  }
+
+  /* ===== HIGHLIGHT KEYWORD ===== */
+  .keyword { font-weight: 700; color: #1b3a6b; }
+  .example-tag {
+    display: inline-block;
+    background: #2d8a5e;
+    color: #fff;
+    font-size: 0.71rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-right: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ===== THEORY CARDS ===== */
+  .theory-accordion { margin: 12px 0; }
+  .theory-item { border: 1px solid #d0e4f7; border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  .theory-trigger {
+    background: #f0f6ff;
+    padding: 13px 18px;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 0.9rem; color: #1b3a6b;
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .theory-trigger:hover { background: #dceeff; }
+  .theory-trigger .chevron { transition: transform 0.3s; font-size: 0.85rem; color: #2e6da4; }
+  .theory-trigger.open .chevron { transform: rotate(180deg); }
+  .theory-body {
+    padding: 0 18px;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.2s;
+    font-size: 0.88rem;
+    color: #333;
+  }
+  .theory-body.open { max-height: 800px; padding: 14px 18px; }
+
+  /* ===== VARIABLES TABLE ===== */
+  .var-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+    gap: 12px; margin: 14px 0;
+  }
+  .var-card {
+    background: #f7fbff;
+    border: 1px solid #cde4f8;
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .var-card h4 { font-size: 0.88rem; color: #1b3a6b; margin-bottom: 6px; }
+  .var-card p { font-size: 0.83rem; color: #444; margin: 0; }
+
+  /* ===== SCROLLABLE CODE ===== */
+  .scroll-x { overflow-x: auto; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 0.82rem;
+    margin-top: 48px;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    font-family: 'DM Sans', sans-serif;
+  }
+  footer strong { color: var(--gold-light); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:600px) {
+    .section-body { padding: 16px; }
+    .toc-card { padding: 18px; }
+    .header-banner { padding: 12px 16px 8px; }
+    .header-meta { padding: 6px 16px 8px; }
+    .topnav { overflow-x: auto; flex-wrap: nowrap; }
+    .topnav a { padding: 9px 10px; font-size: 0.75rem; }
+    h3.sub-heading { font-size: 0.92rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO HEADER ===== -->
+<header class="site-header" id="siteHeader">
+  <!-- layered background -->
+  <div class="hero-bg">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-dots"></div>
+    <div class="hero-orb"></div>
+    <div class="hero-line hero-line-1"></div>
+    <div class="hero-line hero-line-2"></div>
+  </div>
+  <!-- corner ornaments -->
+  <div class="hero-corner hero-corner-tl"></div>
+  <div class="hero-corner hero-corner-br"></div>
+  <div class="hero-corner hero-corner-tr"></div>
+  <div class="hero-corner hero-corner-bl"></div>
+
+  <!-- main content -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      Modibbo Adama University, Yola
+      <span class="hero-eyebrow-line"></span>
+    </div>
+    <div class="hero-logo">🎓</div>
+    <h1 class="hero-title">
+      <span class="hero-title-accent">EDU701 / TED701</span><br>
+      Research Methods<br>in Education
+    </h1>
+    <div class="hero-subtitle-bar"></div>
+    <p class="hero-subtitle">Physical Sciences Education Department &nbsp;·&nbsp; Master's Programme</p>
+    <div class="hero-meta-row">
+      <span class="hero-meta-pill">📘 Lecturer: <strong>Dr. Jibrilla Adamu</strong></span>
+      <span class="hero-meta-pill">🖊️ Designed by: <strong>Mosoba</strong></span>
+      <span class="hero-meta-pill">📅 <strong>2025 / 2026</strong></span>
+    </div>
+  </div>
+
+  <!-- scroll indicator -->
+  <div class="scroll-hint">
+    <span class="scroll-hint-text">Scroll</span>
+    <div class="scroll-hint-track"></div>
+  </div>
+</header>
+
+<!-- ===== STICKY NAV (slides in after hero disappears) ===== -->
+<nav class="topnav" id="topNav">
+    <a href="#toc">📋 Contents</a>
+    <a href="#s1">Research</a>
+    <a href="#s2">Types</a>
+    <a href="#s3">Process</a>
+    <a href="#s4">Theories</a>
+    <a href="#s5">Problem</a>
+    <a href="#s6">Hypothesis</a>
+    <a href="#s7">Literature</a>
+    <a href="#s8">Design</a>
+    <a href="#s9">Instruments</a>
+    <a href="#s10">Sampling</a>
+    <a href="#s11">Analysis</a>
+    <a href="#s12">Report</a>
+    <a href="#quiz">🧩 Quiz</a>
+</nav>
+
+<div class="container">
+
+  <!-- ===== TABLE OF CONTENTS ===== -->
+  <div class="toc-card" id="toc">
+    <h2>📋 Table of Contents</h2>
+    <div class="toc-grid">
+      <a class="toc-item" href="#s1"><span class="toc-num">1</span>Nature &amp; Concept of Research</a>
+      <a class="toc-item" href="#s2"><span class="toc-num">2</span>Types of Research</a>
+      <a class="toc-item" href="#s3"><span class="toc-num">3</span>Research Process</a>
+      <a class="toc-item" href="#s4"><span class="toc-num">4</span>Theories in Education</a>
+      <a class="toc-item" href="#s5"><span class="toc-num">5</span>Problem Formulation</a>
+      <a class="toc-item" href="#s6"><span class="toc-num">6</span>Hypothesis &amp; Variables</a>
+      <a class="toc-item" href="#s7"><span class="toc-num">7</span>Literature Review</a>
+      <a class="toc-item" href="#s8"><span class="toc-num">8</span>Research Design</a>
+      <a class="toc-item" href="#s9"><span class="toc-num">9</span>Instrumentation</a>
+      <a class="toc-item" href="#s10"><span class="toc-num">10</span>Population &amp; Sampling</a>
+      <a class="toc-item" href="#s11"><span class="toc-num">11</span>Data Analysis</a>
+      <a class="toc-item" href="#s12"><span class="toc-num">12</span>Research Report &amp; APA</a>
+      <a class="toc-item" href="#quiz"><span class="toc-num">🧩</span>Interactive Quiz</a>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 1: NATURE OF RESEARCH ===== -->
+  <div class="section-card" id="s1">
+    <div class="section-header">
+      <div class="section-icon">🔬</div>
+      <div>
+        <h2>1. Nature &amp; Concept of Research</h2>
+        <p>What research is, its key traits, and what makes it scientific</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        <strong>Simple Definition:</strong> Research is like being a detective. You notice something you do not fully understand, ask a clear question about it, gather clues (data), and use those clues to reach a well-supported answer. The goal is to discover reliable, useful knowledge.
+      </div>
+
+      <div class="image-row">
+        <div class="img-block">
+          <div class="img-placeholder" style="background:#e8f4fd;">🔭</div>
+          <div class="img-caption">Scientific research follows a systematic plan — like using a telescope to explore the unknown</div>
+        </div>
+        <div class="img-block">
+          <div class="img-placeholder" style="background:#e8f7ee;">📊</div>
+          <div class="img-caption">Data collection and analysis are at the heart of every research study</div>
+        </div>
+        <div class="img-block">
+          <div class="img-placeholder" style="background:#fef8e7;">🏫</div>
+          <div class="img-caption">Educational research focuses on improving teaching and learning in real classrooms</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">🔑 Four Key Characteristics of Research</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Objectivity</div>
+          <h4>⚖️ No Personal Bias</h4>
+          <p>The researcher does not let personal feelings affect the results. Think of a judge who must decide based on evidence, not emotion. Data — not opinions — leads to the conclusion.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Precision</div>
+          <h4>📐 Exact &amp; Measurable</h4>
+          <p>Results use clear numbers and statistical tools (like averages and standard deviations) so anyone reading can understand exactly what was found. No vague language.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Design</div>
+          <h4>🗺️ A Clear Plan</h4>
+          <p>Every study has a step-by-step plan: define the problem → form a hypothesis → collect data → analyse → report. Like a recipe — skipping a step can ruin the whole dish.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Verifiability</div>
+          <h4>✅ Can Be Checked</h4>
+          <p>Other researchers should be able to repeat the study and confirm (or challenge) the findings. Science builds on itself only when results can be independently verified.</p>
+        </div>
+      </div>
+
+      <div class="mnemonic-box">
+        <h4>💡 Mnemonic — Remember the 4 Characteristics: <em>"Old People Design Vaults"</em></h4>
+        <div class="mnemonic-word">
+          <div class="mnemonic-letter">O</div>
+          <div class="mnemonic-letter">P</div>
+          <div class="mnemonic-letter">D</div>
+          <div class="mnemonic-letter">V</div>
+        </div>
+        <div class="mnemonic-expand">
+          <span>O</span>bjectivity &nbsp;|&nbsp;
+          <span>P</span>recision &nbsp;|&nbsp;
+          <span>D</span>esign &nbsp;|&nbsp;
+          <span>V</span>erifiability
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <span></span>
+        <a class="btn btn-outline btn-sm" href="#s2">Next: Types of Research →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: TYPES OF RESEARCH ===== -->
+  <div class="section-card" id="s2">
+    <div class="section-header">
+      <div class="section-icon">🗂️</div>
+      <div>
+        <h2>2. Types of Research</h2>
+        <p>Purpose-based, Method-based, and Analysis-based classifications</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        Research can be grouped in three main ways: <strong>what it aims to do</strong> (purpose), <strong>how it is conducted</strong> (method), and <strong>what kind of data it uses</strong> (analysis type).
+      </div>
+
+      <h3 class="sub-heading">🎯 Purpose-Based Classification</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Basic / Pure Research</div>
+          <h4>🧬 Building Theory</h4>
+          <p><span class="example-tag">Example</span>Studying how children's brains process language — not to fix a classroom problem immediately, but to expand human knowledge. Like scientists searching for how the universe began.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Applied Research</div>
+          <h4>🔧 Solving Real Problems</h4>
+          <p><span class="example-tag">Example</span>Testing whether a new teaching technique improves exam scores in Yola secondary schools. Directly solves a real, existing educational problem.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Action Research</div>
+          <h4>🏫 Teacher as Researcher</h4>
+          <p><span class="example-tag">Example</span>A teacher notices students struggle with fractions, tries a new strategy, observes results, adjusts, and tries again. It is "learning by doing" in the classroom.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Evaluation Research</div>
+          <h4>📋 Judging Worth</h4>
+          <p><span class="example-tag">Example</span>The Nigerian government changes from the 6-5-2-3 system to 6-3-3-4 based on evaluation research that assessed the old system's effectiveness.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">🔭 Method-Based Classification</h3>
+      <div class="scroll-x">
+        <table class="compare-table">
+          <thead><tr><th>Method</th><th>What It Does</th><th>Real-Life Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Experimental</strong></td><td>Manipulates variables with control groups to find cause-and-effect</td><td>Testing a new drug on one group, not the other</td></tr>
+            <tr><td><strong>Survey</strong></td><td>Collects data from a sample to describe a population</td><td>Asking 500 teachers about classroom challenges</td></tr>
+            <tr><td><strong>Historical</strong></td><td>Studies past events using old records and testimonies</td><td>Researching colonial education policy in Nigeria</td></tr>
+            <tr><td><strong>Case Study</strong></td><td>Deep, detailed study of one unit (person, school, community)</td><td>Studying how one gifted student learns differently</td></tr>
+            <tr><td><strong>Correlational</strong></td><td>Measures whether two variables are related (no manipulation)</td><td>Does study time relate to exam performance?</td></tr>
+            <tr><td><strong>Ex Post Facto</strong></td><td>Looks at existing outcomes, then traces possible causes backward</td><td>Why do students from poor homes drop out more?</td></tr>
+            <tr><td><strong>Ethnography</strong></td><td>Researcher joins the group being studied (participant observation)</td><td>A researcher lives with a community to understand their learning practices</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">📊 Analysis-Based Classification</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Quantitative</div>
+          <h4>🔢 Numbers &amp; Statistics</h4>
+          <p>Uses test scores, experiments, questionnaires. Analysed with statistical tools. <em>Example: What is the mean score of 200 students?</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Qualitative</div>
+          <h4>💬 Words &amp; Meaning</h4>
+          <p>Uses interviews, observation, documents. <em>Example: How do students feel about online learning?</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Mixed Methods</div>
+          <h4>🔗 Both Combined</h4>
+          <p>Uses both approaches for a richer, more complete picture of the topic being studied.</p>
+        </div>
+      </div>
+
+      <div class="mnemonic-box">
+        <h4>💡 Remember the Method-Based Types: <em>"Every Student Has Common Excellent Descriptions Consistently"</em></h4>
+        <div class="mnemonic-expand" style="margin-top:8px;">
+          <span>E</span>xperimental &nbsp;|&nbsp; <span>S</span>urvey &nbsp;|&nbsp; <span>H</span>istorical &nbsp;|&nbsp; <span>C</span>ase Study &nbsp;|&nbsp; <span>E</span>thnography &nbsp;|&nbsp; <span>D</span>escriptive &nbsp;|&nbsp; <span>C</span>orrelational
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s1">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s3">Next: Research Process →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: RESEARCH PROCESS ===== -->
+  <div class="section-card" id="s3">
+    <div class="section-header">
+      <div class="section-icon">🚀</div>
+      <div>
+        <h2>3. The Research Process in Education</h2>
+        <p>Step-by-step journey from a problem to a published report</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        The research process is like building a house. You cannot start with the roof — you must lay the foundation first, then the walls, then the roof. Each step prepares the way for the next.
+      </div>
+
+      <ul class="steps-list">
+        <li><div class="step-num">1</div><div class="step-content"><strong>Identify the Problem</strong>Something puzzles or worries you in education. E.g., "Why do girls in Adamawa drop out of secondary school more than boys?"</div></li>
+        <li><div class="step-num">2</div><div class="step-content"><strong>Review Related Literature</strong>Read what other researchers have already found about your problem. This prevents repeating old work and reveals gaps you can fill.</div></li>
+        <li><div class="step-num">3</div><div class="step-content"><strong>Formulate Hypotheses / Research Questions</strong>Make an educated guess about the answer. E.g., "Girls who receive school feeding are less likely to drop out."</div></li>
+        <li><div class="step-num">4</div><div class="step-content"><strong>Select Research Design</strong>Choose how you will conduct the study — survey, experiment, case study, etc.</div></li>
+        <li><div class="step-num">5</div><div class="step-content"><strong>Collect Data</strong>Gather information using questionnaires, interviews, tests, or observation.</div></li>
+        <li><div class="step-num">6</div><div class="step-content"><strong>Analyse &amp; Interpret Data</strong>Use statistics or qualitative methods to make sense of what you collected.</div></li>
+        <li><div class="step-num">7</div><div class="step-content"><strong>Discuss Findings</strong>Explain your results in light of past research. Do they agree? Contradict? Extend earlier knowledge?</div></li>
+        <li><div class="step-num">8</div><div class="step-content"><strong>Draw Conclusions &amp; Recommendations</strong>Summarise what you found and suggest practical actions or further research.</div></li>
+        <li><div class="step-num">9</div><div class="step-content"><strong>Write the Research Report</strong>Present everything clearly and formally so others can read, use, and verify your work.</div></li>
+      </ul>
+
+      <div class="mnemonic-box">
+        <h4>💡 Mnemonic — Remember the 9 Steps: <em>"I Really Feel Sad Collecting All Data Carefully Right"</em></h4>
+        <div class="mnemonic-expand">
+          <span>I</span>dentify &nbsp;|&nbsp; <span>R</span>eview &nbsp;|&nbsp; <span>F</span>ormulate &nbsp;|&nbsp; <span>S</span>elect Design &nbsp;|&nbsp; <span>C</span>ollect &nbsp;|&nbsp; <span>A</span>nalyse &nbsp;|&nbsp; <span>D</span>iscuss &nbsp;|&nbsp; <span>C</span>onclude &nbsp;|&nbsp; <span>R</span>eport
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s2">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s4">Next: Theories →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: THEORIES ===== -->
+  <div class="section-card" id="s4">
+    <div class="section-header">
+      <div class="section-icon">🧠</div>
+      <div>
+        <h2>4. Theories in Education</h2>
+        <p>Frameworks that explain how learning happens</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        Educational theories are like <strong>maps</strong> — they help teachers navigate the complex terrain of learning. Without a map, you might wander. With one, you make deliberate, effective choices.
+      </div>
+
+      <h3 class="sub-heading">🏛️ Major Theory Families — Click to Expand</h3>
+      <div class="theory-accordion">
+
+        <div class="theory-item">
+          <div class="theory-trigger" onclick="toggleTheory(this)">
+            <span>🐾 Behavioural Theories — Learning through Conditioning</span>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="theory-body">
+            <p><strong>Core Idea:</strong> People learn by experiencing consequences. Good consequences (rewards) increase a behaviour; bad consequences (punishments) decrease it.</p>
+            <p><strong>Classical Conditioning (Pavlov):</strong> Pavlov rang a bell every time he fed his dogs. Eventually, the dogs salivated just at the bell sound — no food needed. <em>Classroom example:</em> Students go silent when the principal walks in — not because of a reward, but because of an association built over time.</p>
+            <p><strong>Operant Conditioning (Skinner):</strong> A student gets praise for answering correctly → they answer more often. A student burns their hand on a stove → they never touch it again. Teachers use this when they give stars, grades, or verbal praise.</p>
+          </div>
+        </div>
+
+        <div class="theory-item">
+          <div class="theory-trigger" onclick="toggleTheory(this)">
+            <span>🧩 Cognitive Theories — Learning through Thinking</span>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="theory-body">
+            <p><strong>Core Idea:</strong> The brain is not a passive receiver — it actively processes, stores, and retrieves information like a sophisticated computer.</p>
+            <p><strong>Piaget's Stages:</strong> Children in different age groups think differently. A 5-year-old cannot understand abstract algebra — their brain is not ready. Teachers must match lessons to the child's stage of development.</p>
+            <p><strong>Vygotsky's Zone of Proximal Development (ZPD):</strong> What a student can almost do with a little help is the sweet spot for learning. A great teacher stretches students just beyond their comfort zone with support ("scaffolding").</p>
+            <p><strong>Bandura's Social Cognitive Theory:</strong> Children learn by watching others. If a student sees a peer being praised for sharing, they are more likely to share too.</p>
+          </div>
+        </div>
+
+        <div class="theory-item">
+          <div class="theory-trigger" onclick="toggleTheory(this)">
+            <span>🏗️ Constructivist Theories — Learning by Building Knowledge</span>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="theory-body">
+            <p><strong>Core Idea:</strong> Students are not empty containers to be filled with knowledge. They are active builders who connect new ideas to what they already know.</p>
+            <p><strong>Piagetian Constructivism:</strong> Let children handle real objects when learning abstract concepts. A child learning fractions should cut actual oranges before drawing fractions on paper.</p>
+            <p><strong>Social Constructivism (Vygotsky):</strong> Learning happens best in groups. Peer tutoring, group projects, and discussions push students beyond what they could achieve alone.</p>
+            <p><strong>Bruner's Spiral Curriculum:</strong> Teach the same big ideas repeatedly at increasing levels of complexity — like revisiting a town on a spiral road, seeing it from greater heights each time.</p>
+          </div>
+        </div>
+
+        <div class="theory-item">
+          <div class="theory-trigger" onclick="toggleTheory(this)">
+            <span>❤️ Humanistic Theories — Learning the Whole Person</span>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="theory-body">
+            <p><strong>Core Idea:</strong> Students are whole human beings with feelings, needs, and unique potential. Education must address the heart, not just the head.</p>
+            <p><strong>Maslow's Hierarchy of Needs:</strong> A hungry child cannot focus on algebra. Before higher learning can happen, basic needs (food, safety, belonging) must be met. A caring classroom atmosphere is not optional — it is foundational.</p>
+            <p><strong>Rogers' Person-Centred Approach:</strong> When teachers listen genuinely and show empathy, students feel safe to take intellectual risks and grow.</p>
+          </div>
+        </div>
+
+        <div class="theory-item">
+          <div class="theory-trigger" onclick="toggleTheory(this)">
+            <span>🌐 Connectivism — Learning in the Digital Age</span>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="theory-body">
+            <p><strong>Core Idea:</strong> In today's world, knowledge is not stored only in books or people's heads — it is spread across networks, the internet, and communities. Learning is the ability to connect to the right information at the right time.</p>
+            <p><strong>Practical Application:</strong> Online collaboration, social media learning groups, personal learning networks (PLNs), and MOOCs (Massive Open Online Courses) all reflect connectivist thinking.</p>
+          </div>
+        </div>
+
+        <div class="theory-item">
+          <div class="theory-trigger" onclick="toggleTheory(this)">
+            <span>🔢 Multiple Intelligences (Gardner)</span>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="theory-body">
+            <p><strong>Core Idea:</strong> Howard Gardner proposed that intelligence is not one thing measured by a single IQ score. There are at least <strong>8 types</strong>: Linguistic, Logical-Mathematical, Spatial, Musical, Bodily-Kinesthetic, Interpersonal, Intrapersonal, and Naturalistic.</p>
+            <p><em>Real-life example:</em> A student who struggles with written tests may excel in hands-on tasks or music. Good teaching offers diverse ways to demonstrate knowledge.</p>
+          </div>
+        </div>
+
+        <div class="theory-item">
+          <div class="theory-trigger" onclick="toggleTheory(this)">
+            <span>🎓 Andragogy — How Adults Learn (Knowles)</span>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="theory-body">
+            <p><strong>Core Idea:</strong> Adults learn differently from children. They are self-directed, bring rich life experience to the classroom, want to know "why" before they learn "how," and are motivated by real-world relevance.</p>
+            <p><em>Application:</em> Master's students like yourself learn best when given autonomy, when lessons connect to your professional problems, and when you can draw on your own experience in discussions.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mnemonic-box">
+        <h4>💡 Remember the Major Theory Groups: <em>"Beautiful Cats Consume Hot Chocolate Always"</em></h4>
+        <div class="mnemonic-expand">
+          <span>B</span>ehavioural &nbsp;|&nbsp; <span>C</span>ognitive &nbsp;|&nbsp; <span>C</span>onstructivist &nbsp;|&nbsp; <span>H</span>umanistic &nbsp;|&nbsp; <span>C</span>onnectivist &nbsp;|&nbsp; <span>A</span>ndragogy
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s3">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s5">Next: Problem Formulation →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5: PROBLEM FORMULATION ===== -->
+  <div class="section-card" id="s5">
+    <div class="section-header">
+      <div class="section-icon">🎯</div>
+      <div>
+        <h2>5. Problem Formulation</h2>
+        <p>How to identify, define, and write your research problem clearly</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        A research problem is like a diagnosis before a prescription. A doctor who prescribes medicine without knowing what is wrong is dangerous. A researcher who collects data without a clearly defined problem wastes time and resources.
+      </div>
+
+      <h3 class="sub-heading">📌 From Broad to Narrow — The Funnel</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Research Topic</div>
+          <h4>📚 Broadest Level</h4>
+          <p><em>Example: "Weapon possession by students in schools"</em> — wide subject area, not yet researchable.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Research Problem</div>
+          <h4>⚠️ The Specific Concern</h4>
+          <p><em>Example: "Escalating violence in schools due to students carrying weapons"</em> — now we have a specific concern.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Research Purpose</div>
+          <h4>🎯 What You Will Do</h4>
+          <p><em>Example: "To identify factors that influence the extent to which students carry weapons in high schools."</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Research Question</div>
+          <h4>❓ Specific Inquiry</h4>
+          <p><em>Example: "Do peers influence students to carry weapons to school?"</em></p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">✅ Characteristics of a Good Research Problem</h3>
+      <ul class="steps-list">
+        <li><div class="step-num">✔</div><div class="step-content"><strong>Clarity</strong> — It is specific and leaves no room for multiple interpretations.</div></li>
+        <li><div class="step-num">✔</div><div class="step-content"><strong>Relevance</strong> — It fills a gap in existing knowledge or addresses a real educational concern.</div></li>
+        <li><div class="step-num">✔</div><div class="step-content"><strong>Feasibility</strong> — Time, money, and data are available to study it.</div></li>
+        <li><div class="step-num">✔</div><div class="step-content"><strong>Significance</strong> — The findings will matter to teachers, policymakers, or students.</div></li>
+        <li><div class="step-num">✔</div><div class="step-content"><strong>Researchable</strong> — It can be answered by collecting and analysing real data.</div></li>
+        <li><div class="step-num">✔</div><div class="step-content"><strong>Specificity</strong> — It is narrow enough to guide the study but not so narrow it limits useful findings.</div></li>
+      </ul>
+
+      <div class="info-alert">
+        <div class="alert-icon">💡</div>
+        <div><strong>Topic Selection Tip:</strong> Avoid overdone topics (nothing new to discover), topics too controversial for an early researcher, and problems that are either too narrow or too vague. Your topic must have at least two variables and ideally be no more than 25 words long.</div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s4">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s6">Next: Hypothesis →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6: HYPOTHESIS & VARIABLES ===== -->
+  <div class="section-card" id="s6">
+    <div class="section-header">
+      <div class="section-icon">💡</div>
+      <div>
+        <h2>6. Hypothesis &amp; Variables</h2>
+        <p>Educated guesses and the things we study</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        A <strong>hypothesis</strong> is a well-informed guess about what the data will show. It is not a wild guess — it is based on theory and previous research. Think of it as a weather forecast: based on patterns, you predict rain. You then check if it actually rains.
+      </div>
+
+      <h3 class="sub-heading">🔄 Two Main Hypothesis Types</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Null Hypothesis (H₀)</div>
+          <h4>❌ No Difference / No Relationship</h4>
+          <p>States that there is <em>no significant effect</em>. Like saying "this new medicine does nothing."<br><strong>Example:</strong> "There is no significant relationship between class size and students' performance in mathematics."</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Alternative Hypothesis (H₁ / Hₐ)</div>
+          <h4>✅ There IS a Difference / Relationship</h4>
+          <p>States that something is happening. Can be directional (one-tailed) or non-directional (two-tailed).<br><strong>Example:</strong> "Students who learn through practical application perform better than those who learn theoretically."</p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">📦 Types of Variables</h3>
+      <div class="var-grid">
+        <div class="var-card">
+          <h4>📤 Independent Variable (IV)</h4>
+          <p>The cause. What the researcher controls or changes. <em>Example: Teaching method (traditional vs. inquiry-based)</em></p>
+        </div>
+        <div class="var-card">
+          <h4>📥 Dependent Variable (DV)</h4>
+          <p>The effect. What is measured or observed. <em>Example: Students' exam scores</em></p>
+        </div>
+        <div class="var-card">
+          <h4>🔀 Intervening Variable</h4>
+          <p>Cannot be seen or measured directly but affects the outcome. <em>Example: Students' motivation, home circumstances, health</em></p>
+        </div>
+        <div class="var-card">
+          <h4>🔧 Control Variable</h4>
+          <p>Held constant so it does not interfere. <em>Example: Controlling for gender when studying teaching methods</em></p>
+        </div>
+        <div class="var-card">
+          <h4>⚙️ Moderator Variable</h4>
+          <p>Changes the strength of the IV–DV relationship. <em>Example: Socioeconomic status moderating the effect of a school feeding programme</em></p>
+        </div>
+        <div class="var-card">
+          <h4>🚫 Extraneous Variable</h4>
+          <p>Unwanted variable that could distort results if not controlled. <em>Example: Noise in the research environment</em></p>
+        </div>
+      </div>
+
+      <div class="mnemonic-box">
+        <h4>💡 Remember Variable Types: <em>"I Do It Constantly, My Expert"</em></h4>
+        <div class="mnemonic-expand">
+          <span>I</span>ndependent &nbsp;|&nbsp; <span>D</span>ependent &nbsp;|&nbsp; <span>I</span>ntervening &nbsp;|&nbsp; <span>C</span>ontrol &nbsp;|&nbsp; <span>M</span>oderator &nbsp;|&nbsp; <span>E</span>xtraneous
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s5">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s7">Next: Literature Review →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 7: LITERATURE REVIEW ===== -->
+  <div class="section-card" id="s7">
+    <div class="section-header">
+      <div class="section-icon">📚</div>
+      <div>
+        <h2>7. Techniques for Literature Review</h2>
+        <p>How to find, read, and use what others have already discovered</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        Imagine you are going to dig a well. You first ask neighbours where they found water and how deep they dug. That is what a literature review does — it tells you what others have already found so you do not repeat their mistakes or their work.
+      </div>
+
+      <h3 class="sub-heading">🔍 Why Literature Review Matters</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><h4>🧭 Identifies Gaps</h4><p>Shows what has not been studied yet — your opportunity to contribute something new.</p></div>
+        <div class="concept-card"><h4>📖 Gives Background</h4><p>Provides the theoretical and empirical context in which your study sits.</p></div>
+        <div class="concept-card"><h4>🔬 Suggests Methods</h4><p>Shows which research designs and tools others used — guiding your own choices.</p></div>
+        <div class="concept-card"><h4>💬 Supports Discussion</h4><p>When you discuss your results, you compare them to earlier findings from the review.</p></div>
+      </div>
+
+      <h3 class="sub-heading">📁 Sources of Literature</h3>
+      <p>Books, journal articles, theses and dissertations, government publications, conference papers, newspapers, encyclopaedias, abstracts (e.g., ERIC — Educational Resources Information Centre), and reliable internet sources. <strong>Always prefer primary sources</strong> (original research) over secondary ones (summaries by others).</p>
+
+      <h3 class="sub-heading">🔑 Conceptual vs. Theoretical Framework</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Theoretical Framework</div>
+          <h4>🏗️ The Foundation — Other Experts' Ideas</h4>
+          <p>This is what established scholars (like Vygotsky, Piaget, Bandura) have already said about your research area. You stand on the shoulders of giants.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Conceptual Framework</div>
+          <h4>🗺️ Your Master Plan — Your Own Logic</h4>
+          <p>This is your personal blueprint for the entire study: what you are studying, why, how, and with what tools. It is the "big picture" map of your research.</p>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s6">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s8">Next: Research Design →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 8: RESEARCH DESIGN ===== -->
+  <div class="section-card" id="s8">
+    <div class="section-header">
+      <div class="section-icon">📐</div>
+      <div>
+        <h2>8. Research Design</h2>
+        <p>The blueprint for how your study will be structured and conducted</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        A research design is like an architect's blueprint. Before a building is constructed, every detail — rooms, doors, electricity — is planned on paper. A research design plans how data will be collected, from whom, when, and how it will be analysed.
+      </div>
+
+      <h3 class="sub-heading">🗄️ Five Key Types of Research Design</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Descriptive</div>
+          <h4>🖼️ Painting the Picture</h4>
+          <p>Describes what exists. No manipulation of variables. <em>Example: A demographic profile of dropout students in Adamawa State schools.</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Correlational</div>
+          <h4>🔗 Finding Connections</h4>
+          <p>Measures whether two variables move together. Does NOT prove causation. <em>Example: Is time spent studying correlated with exam scores?</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Experimental</div>
+          <h4>⚗️ Testing Cause and Effect</h4>
+          <p>Manipulates an IV and measures effect on DV with control and experimental groups. Random assignment is the gold standard.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Quasi-Experimental</div>
+          <h4>🔬 Experiment Without Full Control</h4>
+          <p>Like experimental, but without random assignment. Uses existing groups. Common in educational settings where random assignment is not ethical or practical.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-red">Explanatory</div>
+          <h4>❓ Asking "Why"</h4>
+          <p>Explores poorly understood phenomena to discover underlying causes. Uses literature review, interviews, and focus groups.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">⚗️ Experimental Design Types</h3>
+      <div class="scroll-x">
+        <table class="compare-table">
+          <thead><tr><th>Design</th><th>Features</th><th>Weakness</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Pre-Experimental (One Group Pre-Post)</strong></td><td>One group, measured before and after treatment</td><td>No control group — hard to know if results are due to the treatment</td></tr>
+            <tr><td><strong>True Experimental (Randomised)</strong></td><td>Random assignment to control and experimental groups</td><td>Not always feasible in real classrooms</td></tr>
+            <tr><td><strong>Solomon Four-Group</strong></td><td>Four groups — two with pre-tests, two without</td><td>Complex and resource-intensive</td></tr>
+            <tr><td><strong>Quasi-Experimental (Non-Equivalent Groups)</strong></td><td>Existing groups used without random assignment</td><td>Pre-existing differences between groups can bias results</td></tr>
+            <tr><td><strong>Factorial Design</strong></td><td>Studies multiple IVs simultaneously and their interactions</td><td>Complex to analyse and interpret</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">⚠️ Threats to Validity</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Internal Validity</div>
+          <h4>Threats Inside the Study</h4>
+          <p>Selection bias, maturation (students grow older), testing effects (familiarity with tests), history effects (outside events), instrumentation changes.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">External Validity</div>
+          <h4>Can Results Generalise?</h4>
+          <p>Population differences (results apply only to similar groups), ecological validity (lab results may not apply to real classrooms), temporal validity (results may change over time).</p>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s7">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s9">Next: Instrumentation →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 9: INSTRUMENTATION ===== -->
+  <div class="section-card" id="s9">
+    <div class="section-header">
+      <div class="section-icon">🛠️</div>
+      <div>
+        <h2>9. Instrumentation</h2>
+        <p>Tools for collecting research data — questionnaires, interviews, tests and more</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        An instrument is the tool a researcher uses to collect data. Just as a doctor uses a thermometer to measure temperature, a researcher uses a questionnaire, interview schedule, or test to measure variables.
+      </div>
+
+      <h3 class="sub-heading">📝 Main Data Collection Tools</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Questionnaire</div>
+          <h4>📋 Written Questions</h4>
+          <p>A set of written questions answered by respondents. Can be structured (fixed options) or unstructured (open-ended). Best for large samples. Must be clear, unbiased, and pre-tested.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Interview</div>
+          <h4>🗣️ Face-to-Face</h4>
+          <p>Researcher speaks directly with participant. Can be structured, semi-structured, or unstructured. Provides rich, detailed data. Builds rapport. Expensive and time-consuming for large groups.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Observation</div>
+          <h4>👁️ Watching in Context</h4>
+          <p>Researcher watches behaviour as it naturally occurs. Can be overt (participants know) or covert (they do not). Used with checklists and direct observation forms.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Focus Groups</div>
+          <h4>👥 Group Discussions</h4>
+          <p>6–10 participants discuss a topic guided by a facilitator. Provides rich qualitative data quickly. Risk: vocal members may dominate quieter ones.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-red">Achievement Tests</div>
+          <h4>📊 Measuring What Was Learned</h4>
+          <p>Tests what participants know or can do at a given time. Must be reliable (consistent), valid (measures what it claims to), objective (unbiased scoring), and usable.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-blue">Schedules</div>
+          <h4>📄 Interviewer-Held Forms</h4>
+          <p>A list of questions the interviewer asks and fills in — unlike a questionnaire the respondent fills in themselves. Used in face-to-face or phone interviews.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">📏 Levels of Measurement</h3>
+      <div class="scroll-x">
+        <table class="compare-table">
+          <thead><tr><th>Scale</th><th>What It Measures</th><th>Example</th><th>Allowed Statistics</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Nominal</strong></td><td>Categories only — no order</td><td>Gender (Male/Female), Religion</td><td>Mode, Chi-square</td></tr>
+            <tr><td><strong>Ordinal</strong></td><td>Rank order, but unequal gaps</td><td>1st, 2nd, 3rd in class</td><td>Median, Percentiles</td></tr>
+            <tr><td><strong>Interval</strong></td><td>Equal gaps, no true zero</td><td>Temperature (°C), IQ scores</td><td>Mean, SD, Correlation</td></tr>
+            <tr><td><strong>Ratio</strong></td><td>Equal gaps + true zero</td><td>Age, Income, Exam marks out of 100</td><td>All statistics including geometric mean</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">🔒 Reliability &amp; Validity</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Reliability</div>
+          <h4>🔁 Consistency</h4>
+          <p>If you weigh yourself on the same scale three times and get the same result each time, the scale is reliable. Types: Test-retest, Inter-rater, Internal consistency (Cronbach's alpha), Parallel forms.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Validity</div>
+          <h4>🎯 Accuracy</h4>
+          <p>Is the instrument actually measuring what it claims to measure? A scale that consistently shows 50kg when you weigh 70kg is reliable but NOT valid. Types: Construct, Content, Face, Criterion validity.</p>
+        </div>
+      </div>
+
+      <div class="warning-alert">
+        <div class="alert-icon">⚠️</div>
+        <div><strong>Important:</strong> A measure can be reliable without being valid, but it cannot be valid without first being reliable. Reliability is necessary but not sufficient for validity.</div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s8">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s10">Next: Sampling →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 10: SAMPLING ===== -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="section-icon">👥</div>
+      <div>
+        <h2>10. Population, Sampling &amp; Sampling Techniques</h2>
+        <p>How to select who participates in your study</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        You cannot interview every student in Nigeria. Instead, you select a <strong>sample</strong> — a smaller, representative group — and use the results to draw conclusions about the larger <strong>population</strong>. This is like tasting a spoonful of soup to judge the whole pot.
+      </div>
+
+      <h3 class="sub-heading">🎲 Probability Sampling (Every Unit Has a Known Chance)</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Simple Random Sampling</div>
+          <h4>🎰 Like a Lottery</h4>
+          <p>Every person in the population has an equal chance of selection. Draw names from a hat, use a random number table, or a computer random generator.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Systematic Sampling</div>
+          <h4>📏 Every kth Person</h4>
+          <p>Select every 5th (or 10th, 20th) person from a list. <em>Example: From a list of 1,000 students, select every 10th — giving 100 participants.</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Stratified Sampling</div>
+          <h4>📦 Divide Then Sample</h4>
+          <p>Divide the population into subgroups (strata) by gender, class, etc., then sample from each stratum. Ensures all subgroups are represented.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Cluster Sampling</div>
+          <h4>🗺️ Sample Groups Not Individuals</h4>
+          <p>Randomly select whole schools, villages, or districts. Then study everyone (or a sample) within each selected cluster. Useful when population is geographically spread.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-blue">Multi-Stage Sampling</div>
+          <h4>🔗 Sampling in Stages</h4>
+          <p>Combines techniques: first select states → then LGAs → then schools → then students. Used for large national surveys.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">🎯 Non-Probability Sampling (Selection Not Random)</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-orange">Convenience Sampling</div>
+          <h4>🏃 Whoever Is Available</h4>
+          <p>Select participants who are easiest to access. <em>Example: Surveying only students in your own department.</em> Results cannot be generalised broadly.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Purposive Sampling</div>
+          <h4>🎯 Select by Criteria</h4>
+          <p>Choose participants who meet specific criteria for the study. <em>Example: Only physics teachers with more than 10 years of experience.</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Snowball Sampling</div>
+          <h4>⛄ Participants Recruit Others</h4>
+          <p>Start with a few participants who then recommend others. Useful for hard-to-reach groups like school dropouts or people with rare conditions.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-red">Quota Sampling</div>
+          <h4>🧮 Fill a Quota</h4>
+          <p>Set targets for each subgroup (e.g., 50 males, 50 females) and recruit until quotas are filled. Not random, so results are less generalisable.</p>
+        </div>
+      </div>
+
+      <div class="mnemonic-box">
+        <h4>💡 Remember Probability Sampling Types: <em>"Simple Systematic Strategies Create Multi-layer Plans"</em></h4>
+        <div class="mnemonic-expand">
+          <span>S</span>imple Random &nbsp;|&nbsp; <span>S</span>ystematic &nbsp;|&nbsp; <span>S</span>tratified &nbsp;|&nbsp; <span>C</span>luster &nbsp;|&nbsp; <span>M</span>ulti-stage
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s9">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s11">Next: Data Analysis →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 11: DATA ANALYSIS ===== -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <div>
+        <h2>11. Data Analysis &amp; Interpretation</h2>
+        <p>Making sense of what you collected</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        Data without analysis is like ingredients without a recipe. Analysis transforms raw numbers and words into meaningful conclusions that answer your research questions.
+      </div>
+
+      <h3 class="sub-heading">📉 Descriptive Statistics — Summarising Your Data</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">Mean</div>
+          <h4>➗ The Average</h4>
+          <p>Sum of all values ÷ number of values. Most common measure of the centre. Affected by extreme scores (outliers).</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Median</div>
+          <h4>⬛ The Middle Value</h4>
+          <p>The value that splits data exactly in half. Less affected by outliers than the mean. Better for skewed data.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">Mode</div>
+          <h4>🏆 The Most Frequent</h4>
+          <p>The value that appears most often. Used for nominal (categorical) data where mean and median make no sense.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Standard Deviation</div>
+          <h4>📏 Spread from the Mean</h4>
+          <p>How far scores typically are from the average. Low SD = data clustered close together. High SD = data spread far apart.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">📐 Inferential Statistics — Drawing Conclusions</h3>
+      <div class="scroll-x">
+        <table class="compare-table">
+          <thead><tr><th>Test</th><th>When to Use</th><th>Example Research Question</th></tr></thead>
+          <tbody>
+            <tr><td><strong>t-test (Independent)</strong></td><td>Compare means of 2 groups</td><td>Do boys and girls score differently in physics?</td></tr>
+            <tr><td><strong>t-test (Paired)</strong></td><td>Compare same group at 2 time points</td><td>Did scores improve after the intervention?</td></tr>
+            <tr><td><strong>ANOVA (F-test)</strong></td><td>Compare means of 3+ groups</td><td>Do students in Junior, Senior, and Adult classes differ in learning motivation?</td></tr>
+            <tr><td><strong>Pearson Correlation</strong></td><td>Relate 2 continuous variables</td><td>Does study time relate to exam scores?</td></tr>
+            <tr><td><strong>Multiple Regression</strong></td><td>Predict DV from multiple IVs</td><td>What factors predict academic performance?</td></tr>
+            <tr><td><strong>Chi-square</strong></td><td>Compare categorical frequencies</td><td>Is gender related to school dropout?</td></tr>
+            <tr><td><strong>Mann-Whitney U</strong></td><td>Non-parametric alternative to t-test</td><td>Used when data is not normally distributed</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">🔑 How to Interpret Results</h3>
+      <div class="info-alert">
+        <div class="alert-icon">📌</div>
+        <div>
+          <strong>The p-value rule:</strong> If p ≤ 0.05, the result is statistically significant — reject the null hypothesis. If p &gt; 0.05, do not reject it. In SPSS output, look at the column labelled <em>Sig.</em> — values of 0.05 or less mean a significant finding.
+        </div>
+      </div>
+      <div class="info-alert">
+        <div class="alert-icon">📌</div>
+        <div>
+          <strong>Correlation strength (Cohen, 1988):</strong> r = .10–.29 = Small | r = .30–.49 = Medium | r = .50–1.0 = Large. A negative r (e.g., r = −0.65) is still a strong relationship — the minus sign tells you the direction, not the strength.
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s10">← Previous</a>
+        <a class="btn btn-outline btn-sm" href="#s12">Next: Research Report →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 12: REPORT & APA ===== -->
+  <div class="section-card" id="s12">
+    <div class="section-header">
+      <div class="section-icon">📄</div>
+      <div>
+        <h2>12. Research Report Writing &amp; APA Referencing</h2>
+        <p>Communicating your findings professionally</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="intro-box">
+        A research report is the final product of months or years of work. Writing it well means others can understand, use, and build on your findings. Modibbo Adama University, Yola uses <strong>APA (American Psychological Association)</strong> referencing style.
+      </div>
+
+      <h3 class="sub-heading">📖 Structure of a Thesis by Chapters</h3>
+      <ul class="steps-list">
+        <li><div class="step-num">1</div><div class="step-content"><strong>Chapter One: Introduction</strong>Background to the study, statement of the problem, objectives, research questions/hypotheses, significance, scope and limitations, definition of terms.</div></li>
+        <li><div class="step-num">2</div><div class="step-content"><strong>Chapter Two: Review of Related Literature</strong>Theoretical framework, conceptual framework, review of empirical studies related to your topic. Concludes by identifying the gap your study fills.</div></li>
+        <li><div class="step-num">3</div><div class="step-content"><strong>Chapter Three: Methodology</strong>Research design, area of study, population, sample and sampling technique, instruments, validity, reliability, data collection procedure, and data analysis plan.</div></li>
+        <li><div class="step-num">4</div><div class="step-content"><strong>Chapter Four: Results, Analysis &amp; Discussion</strong>Presents data in tables/graphs, answers each research question or tests each hypothesis, discusses results in light of previous literature.</div></li>
+        <li><div class="step-num">5</div><div class="step-content"><strong>Chapter Five: Summary, Conclusions &amp; Recommendations</strong>Summarises the whole study, draws conclusions, states limitations, and makes recommendations for practice and future research.</div></li>
+      </ul>
+
+      <h3 class="sub-heading">📌 APA Citation — Quick Guide</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="badge badge-blue">One Author In-Text</div>
+          <h4>Smith (2020) found...</h4>
+          <p>OR at the end: <em>(Smith, 2020)</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-green">Two Authors</div>
+          <h4>Johnson and Williams (2015)</h4>
+          <p>In parentheses: <em>(Johnson &amp; Williams, 2015)</em> — use "&amp;" inside brackets, "and" in text.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-orange">3–5 Authors (1st cite)</div>
+          <h4>Kernis, Cornell, Sun, Berry, and Harlow (1993)</h4>
+          <p>Subsequent citations: <em>Kernis et al. (1993)</em></p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-purple">Reference List (Book)</div>
+          <h4>Format</h4>
+          <p>Smith, J. A. (2001). <em>The art of writing</em>. Academic Press.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-red">Reference List (Journal)</div>
+          <h4>Format</h4>
+          <p>Johnson, M., &amp; Williams, K. L. (2015). The impact of technology on education. <em>Journal of Educational Research, 108</em>(3), 214–226.</p>
+        </div>
+        <div class="concept-card">
+          <div class="badge badge-blue">Null Hypothesis (H₀)</div>
+          <h4>p-value Decision Rule</h4>
+          <p>If computed p ≤ 0.05 → Reject H₀ (significant). If p &gt; 0.05 → Fail to reject H₀ (not significant).</p>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="btn btn-outline btn-sm" href="#s11">← Previous</a>
+        <a class="btn btn-success btn-sm" href="#quiz">🧩 Take the Quiz →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ SECTION ===== -->
+  <div class="section-card" id="quiz">
+    <div class="section-header" style="background: linear-gradient(90deg, #2d8a5e 0%, #4ea87a 100%);">
+      <div class="section-icon">🧩</div>
+      <div>
+        <h2>Interactive Practice Quiz</h2>
+        <p>Test your understanding of EDU701/TED701 topics — click an option to answer</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="quiz-progress">
+        <span>Progress</span>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progBar" style="width:0%"></div>
+        </div>
+        <span class="quiz-score" id="scoreDisplay">0 / 20</span>
+      </div>
+
+      <div class="quiz-section" id="quizContainer">
+
+        <!-- Q1 -->
+        <div class="quiz-q" id="q1">
+          <div class="quiz-q-num">Question 1 of 20</div>
+          <div class="quiz-q-text">Which characteristic of research ensures that a researcher does not let personal feelings influence the results?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q1', 'Precision refers to using statistical methods for exactness — not about personal bias.')"><span class="option-letter">A</span>Precision</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q1', 'Objectivity means the researcher eliminates personal bias and lets data — not emotion — lead to conclusions.')"><span class="option-letter">B</span>Objectivity</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q1', 'Verifiability is about others being able to repeat and confirm findings.')"><span class="option-letter">C</span>Verifiability</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q1', 'Design refers to the step-by-step plan for conducting a study.')"><span class="option-letter">D</span>Design</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q1"></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-q" id="q2">
+          <div class="quiz-q-num">Question 2 of 20</div>
+          <div class="quiz-q-text">A teacher notices that students fail fractions, tries a new visual method, observes results, then adjusts. This is an example of:</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q2', 'Basic research aims to expand theory with no immediate practical application.')"><span class="option-letter">A</span>Basic research</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q2', 'Experimental research requires strict control and experimental groups.')"><span class="option-letter">B</span>Experimental research</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q2', 'Action research is conducted in real classrooms by practitioners who identify a problem, try a solution, observe, and refine. It is "learning by doing."')"><span class="option-letter">C</span>Action research</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q2', 'Historical research studies past events using records and documents.')"><span class="option-letter">D</span>Historical research</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q2"></div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-q" id="q3">
+          <div class="quiz-q-num">Question 3 of 20</div>
+          <div class="quiz-q-text">Pavlov's dog experiment (bell → salivation) is the classic example of which theory?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q3', 'Operant conditioning involves rewards and punishments — developed by Skinner, not Pavlov.')"><span class="option-letter">A</span>Operant conditioning</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q3', 'Classical conditioning teaches association between two stimuli without rewards or punishments. Pavlov\'s dogs learned to associate the bell with food, so they salivated at the bell alone.')"><span class="option-letter">B</span>Classical conditioning</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q3', 'Constructivism is about learners building their own knowledge through experience.')"><span class="option-letter">C</span>Constructivism</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q3', 'Connectivism is a digital-age theory about learning through networks.')"><span class="option-letter">D</span>Connectivism</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q3"></div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-q" id="q4">
+          <div class="quiz-q-num">Question 4 of 20</div>
+          <div class="quiz-q-text">Vygotsky's concept of the "Zone of Proximal Development" (ZPD) refers to:</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q4', 'This describes Maslow\'s hierarchy — not Vygotsky\'s ZPD.')"><span class="option-letter">A</span>The basic needs a student must have before learning</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q4', 'This describes Piaget\'s cognitive stages, not the ZPD.')"><span class="option-letter">B</span>The stages of cognitive development in children</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q4', 'The ZPD is the gap between what a learner can do independently and what they can achieve with guidance. A good teacher operates in this zone with scaffolding.')"><span class="option-letter">C</span>Tasks a learner can do with guidance but not alone</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q4', 'This describes Multiple Intelligences theory by Howard Gardner.')"><span class="option-letter">D</span>Different types of intelligence possessed by learners</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q4"></div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="quiz-q" id="q5">
+          <div class="quiz-q-num">Question 5 of 20</div>
+          <div class="quiz-q-text">A null hypothesis (H₀) states that:</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q5', 'This describes the alternative hypothesis (H₁), not the null.')"><span class="option-letter">A</span>There is a significant relationship between the variables</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q5', 'The null hypothesis always states "no significant difference or relationship." It is the default assumption that the researcher attempts to reject.')"><span class="option-letter">B</span>There is no significant difference or relationship between variables</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q5', 'This describes a directional alternative hypothesis.')"><span class="option-letter">C</span>One variable causes the other to increase</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q5', 'This describes inductive reasoning — not the null hypothesis.')"><span class="option-letter">D</span>The researcher has observed a pattern from the data</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q5"></div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="quiz-q" id="q6">
+          <div class="quiz-q-num">Question 6 of 20</div>
+          <div class="quiz-q-text">Which variable is the one the researcher manipulates or controls in an experiment?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q6', 'The dependent variable is what is MEASURED — it depends on the independent variable.')"><span class="option-letter">A</span>Dependent variable</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q6', 'The independent variable (IV) is the "cause" that the researcher deliberately changes to observe its effect on the dependent variable.')"><span class="option-letter">B</span>Independent variable</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q6', 'An extraneous variable is unwanted and can confound results — it is not controlled by design.')"><span class="option-letter">C</span>Extraneous variable</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q6', 'An intervening variable cannot be seen, measured, or directly manipulated.')"><span class="option-letter">D</span>Intervening variable</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q6"></div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="quiz-q" id="q7">
+          <div class="quiz-q-num">Question 7 of 20</div>
+          <div class="quiz-q-text">In sampling, "stratified sampling" involves:</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q7', 'Selecting whoever is available is convenience sampling.')"><span class="option-letter">A</span>Selecting whoever is easiest to reach</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q7', 'Selecting every kth person is systematic sampling.')"><span class="option-letter">B</span>Selecting every kth person from a list</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q7', 'Stratified sampling divides the population into subgroups (strata) based on relevant characteristics, then samples from each group — ensuring all groups are represented.')"><span class="option-letter">C</span>Dividing the population into subgroups, then sampling from each</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q7', 'Sampling whole schools or districts is cluster sampling.')"><span class="option-letter">D</span>Randomly selecting whole schools or districts</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q7"></div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="quiz-q" id="q8">
+          <div class="quiz-q-num">Question 8 of 20</div>
+          <div class="quiz-q-text">Which level of measurement has a true zero point (meaning zero indicates complete absence of the property)?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q8', 'Nominal scale only names categories — no order, no zero.')"><span class="option-letter">A</span>Nominal</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q8', 'Ordinal ranks data but gaps between ranks are unequal — no true zero.')"><span class="option-letter">B</span>Ordinal</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q8', 'Interval has equal gaps but NO true zero. 0°C does not mean "no temperature."')"><span class="option-letter">C</span>Interval</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q8', 'Ratio scale has all features of other scales PLUS a true zero. Age = 0 means no age yet; income = 0 means no income. Examples: age, weight, exam marks out of 100.')"><span class="option-letter">D</span>Ratio</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q8"></div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="quiz-q" id="q9">
+          <div class="quiz-q-num">Question 9 of 20</div>
+          <div class="quiz-q-text">When we say an instrument is "reliable," we mean:</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, true, 'q9', 'Reliability means an instrument gives consistent results each time it is used under the same conditions — like a scale that always shows your correct weight.')"><span class="option-letter">A</span>It consistently produces the same results when measuring the same thing</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q9', 'Measuring the right construct is VALIDITY, not reliability.')"><span class="option-letter">B</span>It measures exactly what it claims to measure</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q9', 'Being easy to administer relates to usability — a different quality from reliability.')"><span class="option-letter">C</span>It is easy to administer to large groups</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q9', 'Peer-reviewed relates to academic credibility of a study, not reliability of an instrument.')"><span class="option-letter">D</span>It has been peer-reviewed by other researchers</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q9"></div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="quiz-q" id="q10">
+          <div class="quiz-q-num">Question 10 of 20</div>
+          <div class="quiz-q-text">In APA referencing, when citing a work by two authors in parentheses, you should use:</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q10', 'APA uses "and" within regular text — but inside brackets, you use the ampersand symbol.')"><span class="option-letter">A</span>(Johnson and Williams, 2015)</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q10', 'APA rule: Use the ampersand (&) inside parenthetical citations. Use "and" when the citation appears in running text: "Johnson and Williams (2015) found..."')"><span class="option-letter">B</span>(Johnson &amp; Williams, 2015)</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q10', 'et al. is only used when there are 6 or more authors, or after the first citation of 3-5 authors.')"><span class="option-letter">C</span>(Johnson et al., 2015)</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q10', 'You must include the year in APA in-text citations.')"><span class="option-letter">D</span>(Johnson, Williams)</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q10"></div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="quiz-q" id="q11">
+          <div class="quiz-q-num">Question 11 of 20</div>
+          <div class="quiz-q-text">Which research method involves the researcher becoming a member of the group being studied?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q11', 'Survey research gathers data from a sample using questionnaires or interviews — the researcher does not join the group.')"><span class="option-letter">A</span>Survey research</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q11', 'Historical research studies past events from documents and records.')"><span class="option-letter">B</span>Historical research</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q11', 'Ethnography (participant observation) involves the researcher joining and living within the group to understand it from the inside — its culture, perspectives, and daily reality.')"><span class="option-letter">C</span>Ethnography (participant observation)</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q11', 'Experimental research manipulates variables in controlled conditions.')"><span class="option-letter">D</span>Experimental research</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q11"></div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="quiz-q" id="q12">
+          <div class="quiz-q-num">Question 12 of 20</div>
+          <div class="quiz-q-text">What does the p-value of 0.03 in a statistical test tell you?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q12', 'p = 0.03 is less than 0.05, which means the result IS significant.')"><span class="option-letter">A</span>The result is not statistically significant</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q12', 'A p-value does not tell us the size of the effect — that requires effect size measures like Cohen\'s d.')"><span class="option-letter">B</span>The effect size is moderate</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q12', 'p = 0.03 is less than the conventional threshold of 0.05, so we reject the null hypothesis. The difference or relationship found is statistically significant.')"><span class="option-letter">C</span>The result is statistically significant — reject the null hypothesis</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q12', '3% is not the probability that the null is true — p-values do not directly tell us this.')"><span class="option-letter">D</span>There is a 3% probability the null hypothesis is true</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q12"></div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="quiz-q" id="q13">
+          <div class="quiz-q-num">Question 13 of 20</div>
+          <div class="quiz-q-text">Maslow's Hierarchy of Needs is associated with which educational theory?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q13', 'Behaviourism focuses on conditioning through reward and punishment — not on the hierarchy of needs.')"><span class="option-letter">A</span>Behaviourism</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q13', 'Constructivism focuses on learners actively building knowledge from experience.')"><span class="option-letter">B</span>Constructivism</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q13', 'Maslow\'s Hierarchy is a core humanistic theory. It argues that basic needs (physiological, safety, belonging) must be met before higher learning (self-actualisation) can occur.')"><span class="option-letter">C</span>Humanistic theory</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q13', 'Connectivism focuses on learning through digital networks and information connections.')"><span class="option-letter">D</span>Connectivism</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q13"></div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="quiz-q" id="q14">
+          <div class="quiz-q-num">Question 14 of 20</div>
+          <div class="quiz-q-text">What is the primary purpose of a literature review in a research study?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q14', 'Data collection is done through questionnaires, interviews, and tests — not through literature review.')"><span class="option-letter">A</span>To collect primary data from participants</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q14', 'Statistical analysis comes after data collection — not in the literature review phase.')"><span class="option-letter">B</span>To perform statistical analysis</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q14', 'A literature review surveys existing knowledge to understand the background, identify gaps the current study fills, suggest methods, and provide a basis for discussing results.')"><span class="option-letter">C</span>To review existing knowledge, identify gaps, and provide theoretical context</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q14', 'Drawing conclusions comes in the final chapter — after data analysis.')"><span class="option-letter">D</span>To draw conclusions from the study</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q14"></div>
+        </div>
+
+        <!-- Q15 -->
+        <div class="quiz-q" id="q15">
+          <div class="quiz-q-num">Question 15 of 20</div>
+          <div class="quiz-q-text">Which type of research design is most appropriate when the researcher wants to establish a cause-and-effect relationship?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q15', 'Descriptive research describes what exists but does not manipulate variables — it cannot establish causation.')"><span class="option-letter">A</span>Descriptive design</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q15', 'Correlational design shows relationships between variables but correlation does NOT mean causation.')"><span class="option-letter">B</span>Correlational design</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q15', 'Experimental design manipulates the independent variable, uses random assignment and control groups — making it the only design that can truly establish cause and effect.')"><span class="option-letter">C</span>Experimental design</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q15', 'Historical design studies past events and cannot manipulate variables for causation.')"><span class="option-letter">D</span>Historical design</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q15"></div>
+        </div>
+
+        <!-- Q16 -->
+        <div class="quiz-q" id="q16">
+          <div class="quiz-q-num">Question 16 of 20</div>
+          <div class="quiz-q-text">What does a high standard deviation value tell you about a data set?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q16', 'Scores clustered near the mean means LOW standard deviation, not high.')"><span class="option-letter">A</span>Scores are clustered closely around the mean</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q16', 'A high standard deviation means scores are spread far from the mean — high variability in the data. A class where some students score 20% and others 95% would have a high SD.')"><span class="option-letter">B</span>Scores are widely spread from the mean</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q16', 'Standard deviation does not tell us the sample size.')"><span class="option-letter">C</span>The sample size is large</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q16', 'Standard deviation does not tell us the number of participants — that is the sample size.')"><span class="option-letter">D</span>There are many participants in the study</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q16"></div>
+        </div>
+
+        <!-- Q17 -->
+        <div class="quiz-q" id="q17">
+          <div class="quiz-q-num">Question 17 of 20</div>
+          <div class="quiz-q-text">In the Solomon Four-Group Design, what is the key purpose of including groups WITHOUT a pre-test?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q17', 'Reducing cost is a practical concern but not the reason for the Solomon Four-Group Design.')"><span class="option-letter">A</span>To reduce the cost of the experiment</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q17', 'Groups without pre-tests are included to assess whether the pre-test itself influenced participants\' behaviour (testing effect / sensitisation). This helps confirm that any observed differences are due to the treatment, not the pre-test.')"><span class="option-letter">B</span>To assess whether the pre-test itself influences participants' behaviour</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q17', 'Adding more participants happens through sample size calculations — not by design purpose of Solomon\'s model.')"><span class="option-letter">C</span>To increase the sample size</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q17', 'Random assignment is a feature of all true experimental designs — not specific to the no-pre-test groups.')"><span class="option-letter">D</span>To allow for random assignment</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q17"></div>
+        </div>
+
+        <!-- Q18 -->
+        <div class="quiz-q" id="q18">
+          <div class="quiz-q-num">Question 18 of 20</div>
+          <div class="quiz-q-text">According to Cohen (1988), what correlation coefficient value indicates a "large" relationship?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q18', 'r = .10–.29 is a SMALL relationship according to Cohen.')"><span class="option-letter">A</span>r = .10 to .29</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q18', 'r = .30–.49 is a MEDIUM relationship according to Cohen.')"><span class="option-letter">B</span>r = .30 to .49</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q18', 'Cohen (1988) guidelines: Small = .10–.29, Medium = .30–.49, Large = .50–1.0. A negative sign (e.g., r = −0.70) still indicates a large relationship — the minus only shows direction.')"><span class="option-letter">C</span>r = .50 to 1.0</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q18', 'r = 0 means NO relationship — there is nothing to classify as large.')"><span class="option-letter">D</span>r = 0</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q18"></div>
+        </div>
+
+        <!-- Q19 -->
+        <div class="quiz-q" id="q19">
+          <div class="quiz-q-num">Question 19 of 20</div>
+          <div class="quiz-q-text">Which chapter of a thesis describes the research methodology, including sampling, instruments, and data collection procedure?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q19', 'Chapter One introduces the study — background, statement of the problem, objectives.')"><span class="option-letter">A</span>Chapter One</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q19', 'Chapter Two reviews related literature and provides the theoretical/conceptual framework.')"><span class="option-letter">B</span>Chapter Two</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q19', 'Chapter Three (Methodology) describes HOW the study was conducted: area of study, population, sample and sampling technique, research design, instruments, validity, reliability, and data analysis plan.')"><span class="option-letter">C</span>Chapter Three</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q19', 'Chapter Four presents and discusses the results of data analysis.')"><span class="option-letter">D</span>Chapter Four</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q19"></div>
+        </div>
+
+        <!-- Q20 -->
+        <div class="quiz-q" id="q20">
+          <div class="quiz-q-num">Question 20 of 20</div>
+          <div class="quiz-q-text">Which referencing style is officially accepted by Modibbo Adama University, Yola?</div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="answer(this, false, 'q20', 'MLA is used mainly in humanities and literature — not at Modibbo Adama University.')"><span class="option-letter">A</span>MLA (Modern Language Association)</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q20', 'Chicago style is common in history and some arts disciplines.')"><span class="option-letter">B</span>Chicago Manual of Style</div>
+            <div class="quiz-option" onclick="answer(this, false, 'q20', 'Harvard style is widely used in the UK and Australia.')"><span class="option-letter">C</span>Harvard Referencing Style</div>
+            <div class="quiz-option" onclick="answer(this, true, 'q20', 'The course notes explicitly state: "APA Style (American Psychological Association) is the accepted reference style by Modibbo Adama University, Yola." This is the style to use in all academic work at MAU.')"><span class="option-letter">D</span>APA (American Psychological Association)</div>
+          </div>
+          <div class="quiz-explanation" id="exp-q20"></div>
+        </div>
+
+      </div><!-- end quizContainer -->
+
+      <!-- RESULT BANNER -->
+      <div class="result-banner" id="resultBanner">
+        <div class="result-emoji" id="resultEmoji">🎉</div>
+        <div class="result-score" id="resultScore">0 / 20</div>
+        <div class="result-msg" id="resultMsg">Well done!</div>
+      </div>
+
+      <div class="quiz-controls">
+        <button class="btn btn-danger btn-sm" onclick="resetQuiz()">🔄 Reset Quiz</button>
+        <a class="btn btn-outline btn-sm" href="#toc">📋 Back to Contents</a>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end container -->
+
+<footer>
+  <strong>EDU701 / TED701 — Research Methods in Education</strong><br>
+  Modibbo Adama University, Yola &nbsp;|&nbsp; Physical Sciences Education Department<br>
+  Designed by <strong>Mosoba</strong> (Master's Student, 2025/2026) &nbsp;|&nbsp; Lecturer: <strong>Dr. Jibrilla Adamu</strong>
+</footer>
+
+<!-- Back to Top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ===== HERO SCROLL BEHAVIOR =====
+const siteHeader = document.getElementById('siteHeader');
+const topNav = document.getElementById('topNav');
+
+window.addEventListener('scroll', function(){
+  const scrolled = window.scrollY > window.innerHeight * 0.55;
+  // Hero slides up and disappears
+  if (scrolled) {
+    siteHeader.classList.add('scrolled-away');
+    topNav.classList.add('visible');
+  } else {
+    siteHeader.classList.remove('scrolled-away');
+    topNav.classList.remove('visible');
+  }
+
+  // Back to top button
+  const btn = document.getElementById('backTop');
+  if(window.scrollY > 300) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
+
+// ===== THEORY ACCORDION =====
+function toggleTheory(trigger){
+  const body = trigger.nextElementSibling;
+  const isOpen = trigger.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.theory-trigger').forEach(t => {
+    t.classList.remove('open');
+    t.nextElementSibling.classList.remove('open');
+  });
+  if(!isOpen){
+    trigger.classList.add('open');
+    body.classList.add('open');
+  }
+}
+
+// ===== QUIZ =====
+let answered = {};
+let correctCount = 0;
+const total = 20;
+
+function answer(option, isCorrect, qId, explanation){
+  if(answered[qId]) return; // already answered
+  answered[qId] = true;
+
+  const allOptions = option.parentElement.querySelectorAll('.quiz-option');
+  allOptions.forEach(opt => {
+    opt.classList.add('disabled');
+    opt.onclick = null;
+  });
+
+  if(isCorrect){
+    option.classList.add('correct');
+    correctCount++;
+  } else {
+    option.classList.add('wrong');
+    // Highlight the correct one
+    allOptions.forEach(opt => {
+      if(opt.onclick === null && !opt.classList.contains('wrong')){
+        // can't find easily — rely on explanation
+      }
+    });
+  }
+
+  // Show explanation
+  const exp = document.getElementById('exp-' + qId);
+  exp.innerHTML = '<strong>' + (isCorrect ? '✅ Correct!' : '❌ Incorrect.') + '</strong> ' + explanation;
+  exp.classList.add('show');
+
+  // Update progress
+  const answered_count = Object.keys(answered).length;
+  document.getElementById('scoreDisplay').textContent = correctCount + ' / ' + total;
+  document.getElementById('progBar').style.width = (answered_count / total * 100) + '%';
+
+  // Check if done
+  if(answered_count === total){
+    showResult();
+  }
+}
+
+function showResult(){
+  const banner = document.getElementById('resultBanner');
+  banner.classList.add('show');
+  document.getElementById('resultScore').textContent = correctCount + ' / ' + total;
+  let emoji, msg;
+  const pct = (correctCount / total) * 100;
+  if(pct >= 90){ emoji = '🏆'; msg = 'Excellent! Outstanding performance!'; }
+  else if(pct >= 75){ emoji = '🎉'; msg = 'Very Good! Keep it up!'; }
+  else if(pct >= 60){ emoji = '👍'; msg = 'Good attempt. Review the explanations.'; }
+  else if(pct >= 50){ emoji = '📚'; msg = 'Fair. Study the materials again.'; }
+  else { emoji = '💪'; msg = 'Keep studying — you can improve!'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent = msg;
+  banner.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function resetQuiz(){
+  answered = {};
+  correctCount = 0;
+  document.getElementById('scoreDisplay').textContent = '0 / ' + total;
+  document.getElementById('progBar').style.width = '0%';
+  document.getElementById('resultBanner').classList.remove('show');
+
+  document.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.classList.remove('correct','wrong','disabled');
+    opt.onclick = opt.getAttribute('data-onclick') || null;
+  });
+  document.querySelectorAll('.quiz-explanation').forEach(exp => {
+    exp.classList.remove('show');
+    exp.textContent = '';
+  });
+
+  // Re-attach click handlers
+  attachQuizHandlers();
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+
+function attachQuizHandlers(){
+  // Rebuild by re-setting innerHTML would lose bindings; instead re-load page logic
+  location.href = '#quiz';
+  location.reload();
+}
+// Override resetQuiz to just reload
+function resetQuiz(){
+  window.location.reload();
+  setTimeout(function(){ document.getElementById('quiz').scrollIntoView(); }, 300);
+}
+
+// ===== NAV HIGHLIGHT =====
+const sections = document.querySelectorAll('[id^="s"], #toc, #quiz');
+const navLinks = document.querySelectorAll('.topnav a');
+window.addEventListener('scroll', function(){
+  let current = '';
+  sections.forEach(sec => {
+    if(window.scrollY >= sec.offsetTop - 120) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
